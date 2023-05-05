@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>雾霾定位探测系统</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Weather Report Widget template Responsive, Login form web template,Flat Pricing tables,Flat Drop downs  Sign up Web Templates, Flat Web Templates, Login sign up Responsive web template, SmartPhone Compatible web template, free web designs for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+
+<link href="../static/css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link href="../static/css/owl.carousel.css" rel="stylesheet" type="text/css" media="all">
+
+<script src = "../static/js/jquery-2.2.3.min.js"></script> 
+<script src = "../static/js/owl.carousel.js"></script>
+<script>
+	$(document).ready(function() { 
+		$("#owl-demo").owlCarousel({ 
+		    autoPlay: 3000, 
+		    items : 3,
+		    itemsDesktop : [768,3],
+		    itemsDesktopSmall : [414,4]
+		});
+	}); 
+</script>
+<script src = "../static/js/echart.js"></script>
+<script src="../static/js/skycons.js"></script>
+<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'><!--web font-->
+</head>
+<body>
+	<!-- main -->
+	<div class="main-agileits">
+        <h1><b>雾霾定位探测系统</b></h1>
+		<div class="main-wthree-row"> 
+			<div class="agileinfo-text"> 
+				<div class="date">
+					<!-- Date-JavaScript -->
+					<script type="text/javascript">
+						var mydate=new Date()
+						var year=mydate.getYear()
+						if(year<1000)
+						year+=1900
+						var day=mydate.getDay()
+						var month=mydate.getMonth()
+						var daym=mydate.getDate()
+						if(daym<10)
+						daym="0"+daym
+						var dayarray=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday")
+						var montharray=new Array("January","February","March","April","May","June","July","August","September","October","November","December")
+						document.write(""+dayarray[day]+" <br> "+daym+"  "+montharray[month]+"  "+year+"")
+					</script>
+					<!-- //Date-JavaScript -->
+				</div>
+				<h2 class="temp">&nbsp;</h2>
+				<h4 class="location"></h4>
+				<h6 class="weather"></h6>
+			</div>
+			<div class="w3layouts-slider">
+				<div id="owl-demo" class="owl-carousel owl-theme">
+					<div class="item agile-item">
+						<h6>空气质量</h6>
+                        <br>
+						<h6 class="quality"></h6>
+					</div> 
+					<div class="item agile-item">
+						<h6>质量指数</h6>
+                        <br>
+						<h6 class="aq"></h6>
+					</div> 
+					<div class="item agile-item">
+                        <h6>PM2.5</h6>
+                        <br>
+						<h6 class="pm25"></h6>
+					</div>  
+					<div class="item agile-item">
+                        <h6>二氧化硫</h6>
+                        <br>
+						<h6 class="so2"></h6>
+					</div> 
+					<div class="item agile-item">
+                        <h6>二氧化氮</h6>
+                        <br>
+						<h6 class="no2"></h6>
+					</div> 
+					<div class="item agile-item">
+                        <h6>一氧化碳</h6>
+                        <br>
+						<h6 class="co"></h6>
+					</div>  
+					<div class="item agile-item">
+                        <h6>臭氧</h6>
+                        <br>
+						<h6 class="o3"></h6>
+					</div> 
+				</div>
+				<script>
+					 var icons = new Skycons({"color": "#fff"}),
+						  list  = [
+							"clear-night","clear-day", "partly-cloudy-day",
+							"partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
+							"fog"
+						  ],
+						  i;
+
+					  for(i = list.length; i--; )
+						icons.set(list[i], list[i]);
+
+					  icons.play();
+				</script>
+			</div>
+	<!-- //main -->
+	</div>
+            <div id="weather" class="col-lg-7 col-md-12" style="height:400px"></div>
+            <div class="get_weather_info">
+                <script>
+                    $.get("https://restapi.amap.com/v3/ip?key=caf51930d4417fe1c20532f5e6429b94", function(test){
+                        var numbersArr = test.rectangle.split(',');
+                        var numbersArr1 = numbersArr[1].split(';');
+                        var x=(parseFloat(numbersArr[0])+parseFloat(numbersArr1[1]))/2;
+                        var y=(parseFloat(numbersArr[2])+parseFloat(numbersArr1[0]))/2;
+                        $.get("https://devapi.qweather.com/v7/weather/now?location=" + x + "," + y + "&key=6fea5c91e3ee4c83badc9aa1d73088e5", function(param){
+                            $.get("https://devapi.qweather.com/v7/air/now?location=" + x + "," + y + "&key=6fea5c91e3ee4c83badc9aa1d73088e5", function(param2){
+                                $(".location").text(test.city);
+                                $(".temp").text(param['now']['temp'] + '°');
+                                $(".weather").text(param['now']['text']);
+                                $(".quality").text(param2['now']['category']);
+                                $(".aq").text(param2['now']['aqi']);
+                                $(".pm25").text(param2['now']['pm2p5']);
+                                $(".so2").text(param2['now']['so2']);
+                                $(".no2").text(param2['now']['no2']);
+                                $(".co").text(param2['now']['co']);
+                                $(".o3").text(param2['now']['o3']);
+                            },"json")
+                        },"json")
+                    },"json");
+                </script>
+
+    <script>
+        // 初始化天气折线图
+        var weather = echarts.init($('#weather').get(0));
+        var option = {
+            title: {
+                text: '未来一周气温',
+                subtext: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['最高气温', '最低气温', '湿度']
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: []
+            },
+            yAxis: {
+               scale:true, //纵坐标起始点根据最低值变化
+                type: 'value',
+                axisLabel: {
+                formatter: '{value} °C'
+                }
+            },
+            series: [{
+                name: '最高气温',
+                type: 'line',
+                data: [],
+                markPoint: {
+                    data: [{
+                        type: 'max',
+                        name: '最大值'
+                    }]
+                },
+                markLine: {
+                    data: [{
+                        type: 'average',
+                        name: '平均值'
+                    }]
+                }
+            },
+            {
+                name: '最低气温',
+                type: 'line',
+                data: [],
+                markPoint: {
+                    data: [{
+                    type: 'min',
+                    name: '最小值'
+                    }]
+                },
+                markLine: {
+                    data: [{
+                        type: 'average',
+                        name: '平均值'
+                    },]
+                }
+            }
+        ]};
+        weather.setOption(option);
+        // 获取天气信息
+        $.get("https://restapi.amap.com/v3/ip?key=caf51930d4417fe1c20532f5e6429b94", function(test){
+            var numbersArr = test.rectangle.split(',');
+            var numbersArr1 = numbersArr[1].split(';');
+            var x=(parseFloat(numbersArr[0])+parseFloat(numbersArr1[1]))/2;
+            var y=(parseFloat(numbersArr[2])+parseFloat(numbersArr1[0]))/2;
+            $.get("https://devapi.qweather.com/v7/weather/7d?location=" + x + "," + y + "&key=6fea5c91e3ee4c83badc9aa1d73088e5", function(res){
+            //显示当前城市
+            {option.title.subtext ='当前城市：' +test.city}
+                //给横坐标复赋值
+                option.xAxis.data = [res.daily[0].fxDate,
+                    res.daily[1].fxDate,
+                    res.daily[2].fxDate,
+                    res.daily[3].fxDate,
+                    res.daily[4].fxDate,
+                    res.daily[5].fxDate,
+                    res.daily[6].fxDate]
+              
+                //由于温度返回的是xx℃ 而我们只需要数字 所以用parseInt截取数字
+                option.series[0].data = [parseInt(res.daily[0].tempMax),
+                    parseInt(res.daily[1].tempMax),
+                    parseInt(res.daily[2].tempMax),
+                    parseInt(res.daily[3].tempMax),
+                    parseInt(res.daily[4].tempMax),
+                    parseInt(res.daily[5].tempMax),
+                    parseInt(res.daily[6].tempMax)]
+
+                option.series[1].data = [parseInt(res.daily[0].tempMin),
+                    parseInt(res.daily[1].tempMin),
+                    parseInt(res.daily[2].tempMin),
+                    parseInt(res.daily[3].tempMin),
+                    parseInt(res.daily[4].tempMin),
+                    parseInt(res.daily[5].tempMin),
+                    parseInt(res.daily[6].tempMin)]
+                    
+                    weather.setOption(option); // 使用刚指定的配置项和数据显示图表。
+                    
+            },"json");
+        },"json");
+    </script>
+            </div></div>
+	<div class="copy-rights wthree">		 	
+		<p>© 2023 Weather Report On B Test. @jhy</p>
+	</div>
+</body>
+</html>
